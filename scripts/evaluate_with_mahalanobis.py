@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import shutil
 import subprocess
 from pathlib import Path
@@ -19,6 +20,33 @@ def copy_generated_as_mask(generated_dir: Path, mask_dir: Path) -> list[Path]:
     if not written:
         raise FileNotFoundError(f"No generated CSV files found in {generated_dir}")
     return written
+
+
+def relabel_generator_column(path: Path, generator: str) -> None:
+    if not path.exists():
+        return
+    with path.open(newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        if reader.fieldnames is None or "generator" not in reader.fieldnames:
+            return
+        rows = list(reader)
+        fields = reader.fieldnames
+    for row in rows:
+        row["generator"] = generator
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def relabel_outputs(output_dir: Path, generator: str) -> None:
+    for path in [
+        output_dir / "features" / "each_mask_features.csv",
+        output_dir / "results" / "feature_zscores.csv",
+        output_dir / "results" / "mahalanobis_distances.csv",
+        output_dir / "results" / "mask_distance_positions.csv",
+    ]:
+        relabel_generator_column(path, generator)
 
 
 def main() -> None:
@@ -58,6 +86,7 @@ def main() -> None:
     ]
     print("Running:", " ".join(cmd))
     subprocess.run(cmd, check=True)
+    relabel_outputs(output_dir, "garch")
     summary_path = output_dir / "results" / "summary.txt"
     if summary_path.exists():
         summary = summary_path.read_text(encoding="utf-8")
@@ -66,6 +95,7 @@ def main() -> None:
             "# GARCH Mahalanobis evaluation result",
             1,
         )
+        summary = summary.replace(",unknown,", ",garch,")
         summary_path.write_text(summary, encoding="utf-8")
     print(f"Saved evaluation results to {output_dir}")
 

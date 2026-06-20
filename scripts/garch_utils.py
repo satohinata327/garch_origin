@@ -9,7 +9,6 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from scipy.optimize import minimize
 
 
 @dataclass
@@ -81,33 +80,52 @@ def garch_negative_loglik(theta: np.ndarray, y: np.ndarray) -> float:
     return float(0.5 * np.sum(np.log(2.0 * math.pi) + np.log(variances) + residuals**2 / variances))
 
 
+def candidate_grid(sample_var: float) -> list[tuple[float, float, float]]:
+    candidates: list[tuple[float, float, float]] = []
+    for alpha in np.linspace(0.02, 0.20, 19):
+        for beta in np.linspace(0.70, 0.975, 28):
+            if alpha + beta < 0.995:
+                omega = max((1.0 - alpha - beta) * sample_var, 1e-12)
+                candidates.append((float(omega), float(alpha), float(beta)))
+    return candidates
+
+
 def fit_garch11(y: np.ndarray) -> tuple[GarchParams, np.ndarray, np.ndarray]:
     values = np.asarray(y, dtype=np.float64)
     sample_var = float(np.var(values, ddof=1))
     if sample_var <= 0.0:
         raise ValueError("Cannot fit GARCH to a constant series")
 
-    x0 = np.array([float(np.mean(values)), sample_var * 0.05, 0.05, 0.9], dtype=np.float64)
-    bounds = [
-        (None, None),
-        (1e-12, sample_var * 100.0),
-        (1e-8, 0.999),
-        (1e-8, 0.999),
-    ]
-    constraints = ({"type": "ineq", "fun": lambda theta: 0.999 - theta[2] - theta[3]},)
-    result = minimize(
-        garch_negative_loglik,
-        x0,
-        args=(values,),
-        method="SLSQP",
-        bounds=bounds,
-        constraints=constraints,
-        options={"maxiter": 1000, "ftol": 1e-10},
-    )
-    if not result.success:
-        raise RuntimeError(f"GARCH optimization failed: {result.message}")
+    mu = float(np.mean(values))
+    best_score = math.inf
+    best_params = (sample_var * 0.05, 0.05, 0.9)
+    for omega, alpha, beta in candidate_grid(sample_var):
+        score = garch_negative_loglik(np.array([mu, omega, alpha, beta]), values)
+        if score < best_score:
+            best_score = score
+            best_params = (omega, alpha, beta)
 
-    mu, omega, alpha, beta = [float(x) for x in result.x]
+    alpha_radius = 0.02
+    beta_radius = 0.03
+    for _ in range(5):
+        _, best_alpha, best_beta = best_params
+        improved = False
+        for alpha in np.linspace(max(1e-6, best_alpha - alpha_radius), min(0.5, best_alpha + alpha_radius), 9):
+            for beta in np.linspace(max(1e-6, best_beta - beta_radius), min(0.998, best_beta + beta_radius), 9):
+                if alpha + beta >= 0.999:
+                    continue
+                omega = max((1.0 - alpha - beta) * sample_var, 1e-12)
+                score = garch_negative_loglik(np.array([mu, omega, alpha, beta]), values)
+                if score < best_score:
+                    best_score = score
+                    best_params = (float(omega), float(alpha), float(beta))
+                    improved = True
+        alpha_radius *= 0.5
+        beta_radius *= 0.5
+        if not improved:
+            continue
+
+    omega, alpha, beta = best_params
     residuals = values - mu
     variances = compute_conditional_variances(residuals, omega, alpha, beta)
     std_residuals = residuals / np.sqrt(variances)

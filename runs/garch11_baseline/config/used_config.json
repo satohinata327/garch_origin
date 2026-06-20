@@ -1,0 +1,18 @@
+{
+  "train_csv": "train_data/train_sp500_us10y.csv",
+  "output_dir": "garch_origin/runs/garch11_baseline",
+  "features": [
+    "sp500",
+    "DGS10"
+  ],
+  "generated_length": 1260,
+  "num_generated": 10,
+  "seed": 42,
+  "scale_factor": 100.0,
+  "burn_in": 500,
+  "innovation_distribution": "normal",
+  "mahalanobis": {
+    "window_length": 1260,
+    "stride": 126
+  }
+}

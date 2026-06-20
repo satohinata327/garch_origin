@@ -1,0 +1,56 @@
+# GARCH Mahalanobis evaluation result
+
+Reference data: train_data/train_sp500_us10y.csv
+Target data: garch_origin/runs/garch11_baseline/evaluation/mahalanobis_input/*.csv
+Reference window length: 1260
+Reference stride: 126
+Reference windows: 107
+Covariance inverse: ordinary sample covariance + Gauss-Jordan inverse
+Reference window distance summary:
+- min: 3.209714
+- mean: 4.391009
+- std: 0.732900
+- max: 7.107789
+
+Selected features:
+- sp500_std
+- sp500_q01
+- sp500_q05
+- sp500_q95
+- sp500_q99
+- sp500_abs_autocorr_lag1
+- sp500_abs_autocorr_lag5
+- sp500_abs_autocorr_lag20
+- dgs10_std
+- dgs10_q01
+- dgs10_q05
+- dgs10_q95
+- dgs10_q99
+- dgs10_abs_autocorr_lag1
+- dgs10_abs_autocorr_lag5
+- dgs10_abs_autocorr_lag20
+- cross_corr
+- rolling_corr_std_60
+- corr_down_sp500_q05
+- corr_up_sp500_q95
+
+Ranking by Mahalanobis distance and position in reference distribution:
+file,generator,n_rows,mahalanobis_distance,reference_percentile,empirical_upper_tail_probability
+mask8_garch.csv,garch,1260,28.958180,100.00,0.000000
+mask9_garch.csv,garch,1260,11.798291,100.00,0.000000
+mask7_garch.csv,garch,1260,9.557467,100.00,0.000000
+mask6_garch.csv,garch,1260,9.376004,100.00,0.000000
+mask3_garch.csv,garch,1260,8.591083,100.00,0.000000
+mask1_garch.csv,garch,1260,8.254983,100.00,0.000000
+mask5_garch.csv,garch,1260,7.372823,100.00,0.000000
+mask4_garch.csv,garch,1260,6.589306,96.26,0.037383
+mask10_garch.csv,garch,1260,6.414713,96.26,0.037383
+mask2_garch.csv,garch,1260,5.500291,93.46,0.065421
+
+Interpretation:
+- Smaller distance means the sample is closer to the real-data feature distribution estimated from train_data.
+- Larger distance means the sample is farther from the reference distribution and is treated as more generated-data-like.
+- Real reference windows also have nonzero Mahalanobis distances; therefore, the key quantity is where each mask distance lies inside the empirical reference-window distance distribution.
+- `reference_percentile` is the percentage of reference windows with distance less than or equal to the mask distance.
+- `empirical_upper_tail_probability` is the fraction of reference windows with distance greater than or equal to the mask distance.
+- This is a draft baseline using ordinary sample mean and ordinary sample covariance.
