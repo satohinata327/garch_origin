@@ -1,0 +1,72 @@
+{
+  "model": "univariate_garch11_with_empirical_residual_correlation",
+  "scale_factor": 100.0,
+  "features": [
+    "sp500",
+    "DGS10"
+  ],
+  "params": {
+    "sp500": {
+      "mu": 0.03146504683046016,
+      "omega": 0.015101496902680549,
+      "alpha": 0.09288194444444445,
+      "beta": 0.8935532407407407,
+      "unconditional_variance": 1.1132844133034085
+    },
+    "DGS10": {
+      "mu": 0.0026469390525315595,
+      "omega": 0.15048459925524912,
+      "alpha": 0.05524305555555555,
+      "beta": 0.941394675925926,
+      "unconditional_variance": 44.75686532066632
+    }
+  },
+  "standardized_residual_correlation": [
+    [
+      1.0,
+      -0.05223846436020549
+    ],
+    [
+      -0.05223846436020549,
+      1.0
+    ]
+  ],
+  "train_csv": "train_data/train_sp500_us10y.csv",
+  "n_train_rows": 14734,
+  "fit_specs": {
+    "sp500": {
+      "min_persistence": 0.94,
+      "initial_max_persistence": 0.992,
+      "max_persistence": 0.992,
+      "alpha_min": 0.04,
+      "alpha_max": 0.18,
+      "beta_min": 0.75,
+      "beta_max": 0.94,
+      "profile": "short_mid_volatility_clustering"
+    },
+    "DGS10": {
+      "min_persistence": 0.995,
+      "initial_max_persistence": 0.9985,
+      "max_persistence": 0.9985,
+      "alpha_min": 0.02,
+      "alpha_max": 0.1,
+      "beta_min": 0.9,
+      "beta_max": 0.985,
+      "profile": "long_volatility_clustering"
+    }
+  },
+  "persistence_summary": {
+    "sp500": {
+      "profile": "short_mid_volatility_clustering",
+      "alpha_plus_beta": 0.9864351851851851,
+      "volatility_half_life_lags": 50.751542293422496
+    },
+    "DGS10": {
+      "profile": "long_volatility_clustering",
+      "alpha_plus_beta": 0.9966377314814815,
+      "volatility_half_life_lags": 205.8078494275252
+    }
+  },
+  "standardized_residual_correlation_source": "train_data_garch_standardized_residuals",
+  "exact_standardized_residual_corr_in_generation": true
+}
