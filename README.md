@@ -16,12 +16,14 @@ garch_origin/
     garch_utils.py
     generate_garch.py
     evaluate_with_mahalanobis.py
+    plot_train_correlogram.py
   runs/
     garch11_baseline/
       config/
       data/
       generated/
       evaluation/
+      diagnostics/
       logs/
 ```
 
@@ -58,6 +60,19 @@ python3 garch_origin/scripts/evaluate_with_mahalanobis.py \
 
 ```text
 garch_origin/runs/garch11_baseline/evaluation/mahalanobis_results/
+```
+
+## trainデータのコレログラム
+
+```bash
+python3 garch_origin/scripts/plot_train_correlogram.py \
+  --config garch_origin/config/garch11_baseline.json
+```
+
+出力は以下に保存されます。
+
+```text
+garch_origin/runs/garch11_baseline/diagnostics/correlogram/
 ```
 
 ## 最小手順
