@@ -1,0 +1,58 @@
+# Mahalanobis remake2 result
+
+Reference data: train_data/train_sp500_us10y.csv
+Target data: garch_origin/runs/garch11_t_copula/generated/*.csv
+Reference window length: 1260
+Reference stride: 126
+Reference windows: 107
+Covariance inverse: ordinary sample covariance + Gauss-Jordan inverse
+
+Selected features:
+- sp500_mean
+- sp500_std
+- sp500_skew
+- sp500_kurtosis
+- dgs10_mean
+- dgs10_std
+- dgs10_skew
+- dgs10_kurtosis
+- sp500_abs_q90
+- sp500_abs_q95
+- sp500_abs_q99
+- sp500_abs_q99_over_std
+- dgs10_abs_q90
+- dgs10_abs_q95
+- dgs10_abs_q99
+- dgs10_abs_q99_over_std
+- sp500_autocorr_lag1
+- sp500_autocorr_lag5
+- sp500_abs_autocorr_lag1
+- sp500_abs_autocorr_lag5
+- dgs10_autocorr_lag1
+- dgs10_autocorr_lag5
+- dgs10_abs_autocorr_lag1
+- dgs10_abs_autocorr_lag5
+- cross_corr
+- joint_abs_q95_move_ratio
+
+Joint extreme event definition:
+- `joint_abs_q95_move_ratio` is the fraction of rows where both abs(sp500) and abs(DGS10) are at or above their own 95% absolute-move quantile within the same sample/window.
+
+Reference window distance summary:
+- min: 3.572588
+- mean: 5.008715
+- std: 0.822254
+- max: 8.202014
+
+Ranking by Mahalanobis distance and position in reference distribution:
+file,generator,n_rows,mahalanobis_distance,reference_percentile,empirical_upper_tail_probability
+garch_generated_008.csv,garch,1260,66.402786,100.00,0.000000
+garch_generated_004.csv,garch,1260,61.768978,100.00,0.000000
+garch_generated_001.csv,garch,1260,21.336721,100.00,0.000000
+garch_generated_009.csv,garch,1260,18.374829,100.00,0.000000
+garch_generated_005.csv,garch,1260,14.005964,100.00,0.000000
+garch_generated_007.csv,garch,1260,12.681007,100.00,0.000000
+garch_generated_010.csv,garch,1260,12.636437,100.00,0.000000
+garch_generated_006.csv,garch,1260,8.666943,100.00,0.000000
+garch_generated_003.csv,garch,1260,8.320481,100.00,0.000000
+garch_generated_002.csv,garch,1260,6.103278,91.59,0.084112

@@ -4,11 +4,11 @@ import csv
 import json
 import math
 from dataclasses import asdict, dataclass
+from types import SimpleNamespace
 from pathlib import Path
 from typing import Any
 
 import numpy as np
-import pandas as pd
 
 
 @dataclass
@@ -30,6 +30,46 @@ class GarchFitSpec:
     beta_min: float = 0.70
     beta_max: float = 0.975
     profile: str = "default"
+
+
+class TrainSeries:
+    def __init__(self, values: np.ndarray):
+        self._values = values
+
+    def to_numpy(self, dtype: type = np.float64) -> np.ndarray:
+        return self._values.astype(dtype, copy=False)
+
+
+class TrainIloc:
+    def __init__(self, data: "TrainData"):
+        self._data = data
+
+    def __getitem__(self, key: slice) -> "TrainData":
+        return TrainData(self._data.features, self._data.values[key])
+
+
+class TrainData:
+    def __init__(self, features: list[str], values: np.ndarray):
+        self.features = features
+        self.values = values
+        self.iloc = TrainIloc(self)
+
+    def __len__(self) -> int:
+        return int(self.values.shape[0])
+
+    def __getitem__(self, feature: str) -> TrainSeries:
+        if feature not in self.features:
+            raise KeyError(feature)
+        return TrainSeries(self.values[:, self.features.index(feature)])
+
+    def to_numpy(self, dtype: type = np.float64) -> np.ndarray:
+        return self.values.astype(dtype, copy=False)
+
+    def itertuples(self, index: bool = False):
+        for row in self.values:
+            yield SimpleNamespace(
+                **{feature: float(row[idx]) for idx, feature in enumerate(self.features)}
+            )
 
 
 def load_config(path: str | Path) -> dict[str, Any]:
@@ -58,19 +98,30 @@ def ensure_run_dirs(output_dir: str | Path) -> dict[str, Path]:
     return dirs
 
 
-def read_train_csv(path: str | Path, features: list[str]) -> pd.DataFrame:
-    df = pd.read_csv(path)
-    if "date" in df.columns:
-        df["date"] = pd.to_datetime(df["date"])
-        df = df.sort_values("date")
-    missing = [col for col in features if col not in df.columns]
-    if missing:
-        raise ValueError(f"Missing columns in {path}: {missing}")
-    out = df[features].apply(pd.to_numeric, errors="coerce")
-    out = out.replace([np.inf, -np.inf], np.nan).dropna()
-    if len(out) < 500:
-        raise ValueError(f"Too few usable rows in {path}: {len(out)}")
-    return out
+def read_train_csv(path: str | Path, features: list[str]) -> TrainData:
+    with Path(path).open(newline="", encoding="utf-8-sig") as f:
+        reader = csv.DictReader(f)
+        fieldnames = reader.fieldnames or []
+        missing = [col for col in features if col not in fieldnames]
+        if missing:
+            raise ValueError(f"Missing columns in {path}: {missing}")
+        rows = list(reader)
+
+    if "date" in fieldnames:
+        rows = sorted(rows, key=lambda row: row.get("date", ""))
+
+    values: list[list[float]] = []
+    for row in rows:
+        try:
+            parsed = [float(row[feature]) for feature in features]
+        except (TypeError, ValueError):
+            continue
+        if all(math.isfinite(value) for value in parsed):
+            values.append(parsed)
+
+    if len(values) < 500:
+        raise ValueError(f"Too few usable rows in {path}: {len(values)}")
+    return TrainData(features, np.asarray(values, dtype=np.float64))
 
 
 def compute_conditional_variances(residuals: np.ndarray, omega: float, alpha: float, beta: float) -> np.ndarray:
@@ -215,6 +266,67 @@ def exact_sample_corr_innovations(length: int, corr: np.ndarray, rng: np.random.
     return matched / matched_std
 
 
+def correlated_normal_innovations(
+    length: int,
+    corr: np.ndarray,
+    rng: np.random.Generator,
+    exact_sample_corr: bool = False,
+) -> np.ndarray:
+    if exact_sample_corr:
+        return exact_sample_corr_innovations(length, corr, rng)
+    target = nearest_positive_definite_corr(corr)
+    chol = np.linalg.cholesky(target)
+    return rng.standard_normal((length, target.shape[0])) @ chol.T
+
+
+def t_copula_innovations(
+    length: int,
+    corr: np.ndarray,
+    degrees_of_freedom: float,
+    rng: np.random.Generator,
+    exact_latent_sample_corr: bool = False,
+) -> np.ndarray:
+    if degrees_of_freedom <= 2.0:
+        raise ValueError("t-copula degrees_of_freedom must be greater than 2.0")
+    target = nearest_positive_definite_corr(corr)
+    latent = correlated_normal_innovations(
+        length=length,
+        corr=target,
+        rng=rng,
+        exact_sample_corr=exact_latent_sample_corr,
+    )
+    common_scale = np.sqrt(rng.chisquare(degrees_of_freedom, size=(length, 1)) / degrees_of_freedom)
+    innovations = latent / np.maximum(common_scale, 1e-12)
+    return innovations * math.sqrt((degrees_of_freedom - 2.0) / degrees_of_freedom)
+
+
+def make_innovations(
+    length: int,
+    corr: np.ndarray,
+    rng: np.random.Generator,
+    innovation_distribution: str = "normal",
+    exact_standardized_residual_corr: bool = False,
+    t_degrees_of_freedom: float = 6.0,
+) -> np.ndarray:
+    distribution = innovation_distribution.lower()
+    if distribution in {"normal", "gaussian"}:
+        return correlated_normal_innovations(
+            length=length,
+            corr=corr,
+            rng=rng,
+            exact_sample_corr=exact_standardized_residual_corr,
+        )
+    if distribution in {"t", "student_t", "student-t", "t_copula", "t-copula"}:
+        return t_copula_innovations(
+            length=length,
+            corr=corr,
+            degrees_of_freedom=t_degrees_of_freedom,
+            rng=rng,
+            exact_latent_sample_corr=exact_standardized_residual_corr,
+        )
+    raise ValueError(f"Unsupported innovation_distribution: {innovation_distribution}")
+
+
 def nearest_positive_definite_corr(corr: np.ndarray) -> np.ndarray:
     matrix = np.asarray(corr, dtype=np.float64)
     matrix = (matrix + matrix.T) / 2.0
@@ -238,6 +350,8 @@ def simulate_garch11_detailed(
     burn_in: int,
     rng: np.random.Generator,
     exact_standardized_residual_corr: bool = False,
+    innovation_distribution: str = "normal",
+    t_degrees_of_freedom: float = 6.0,
 ) -> tuple[np.ndarray, np.ndarray]:
     corr = nearest_positive_definite_corr(residual_corr)
     total_length = length + burn_in
@@ -251,12 +365,32 @@ def simulate_garch11_detailed(
         values[0, col] = params.mu
 
     if exact_standardized_residual_corr:
-        burn_innovations = exact_sample_corr_innovations(max(burn_in, len(features) + 2), corr, rng)[:burn_in]
-        kept_innovations = exact_sample_corr_innovations(length, corr, rng)
+        burn_innovations = make_innovations(
+            length=max(burn_in, len(features) + 2),
+            corr=corr,
+            rng=rng,
+            innovation_distribution=innovation_distribution,
+            exact_standardized_residual_corr=True,
+            t_degrees_of_freedom=t_degrees_of_freedom,
+        )[:burn_in]
+        kept_innovations = make_innovations(
+            length=length,
+            corr=corr,
+            rng=rng,
+            innovation_distribution=innovation_distribution,
+            exact_standardized_residual_corr=True,
+            t_degrees_of_freedom=t_degrees_of_freedom,
+        )
         innovations = np.vstack([burn_innovations, kept_innovations])
     else:
-        chol = np.linalg.cholesky(corr)
-        innovations = rng.standard_normal((total_length, len(features))) @ chol.T
+        innovations = make_innovations(
+            length=total_length,
+            corr=corr,
+            rng=rng,
+            innovation_distribution=innovation_distribution,
+            exact_standardized_residual_corr=False,
+            t_degrees_of_freedom=t_degrees_of_freedom,
+        )
 
     for t in range(1, total_length):
         for col, feature in enumerate(features):
@@ -281,6 +415,8 @@ def simulate_garch11(
     burn_in: int,
     rng: np.random.Generator,
     exact_standardized_residual_corr: bool = False,
+    innovation_distribution: str = "normal",
+    t_degrees_of_freedom: float = 6.0,
 ) -> np.ndarray:
     values, _ = simulate_garch11_detailed(
         params_by_feature=params_by_feature,
@@ -290,6 +426,8 @@ def simulate_garch11(
         burn_in=burn_in,
         rng=rng,
         exact_standardized_residual_corr=exact_standardized_residual_corr,
+        innovation_distribution=innovation_distribution,
+        t_degrees_of_freedom=t_degrees_of_freedom,
     )
     return values
 

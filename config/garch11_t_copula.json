@@ -1,0 +1,53 @@
+{
+  "train_csv": "train_data/train_sp500_us10y.csv",
+  "output_dir": "garch_origin/runs/garch11_t_copula",
+  "features": ["sp500", "DGS10"],
+  "generated_length": 1260,
+  "num_generated": 10,
+  "seed": 42,
+  "scale_factor": 100.0,
+  "burn_in": 500,
+  "innovation_distribution": "t_copula",
+  "t_copula": {
+    "degrees_of_freedom": 6.0
+  },
+  "exact_standardized_residual_corr": true,
+  "garch_fit": {
+    "default": {
+      "min_persistence": 0.0,
+      "initial_max_persistence": 0.9985,
+      "max_persistence": 0.9985,
+      "alpha_min": 0.02,
+      "alpha_max": 0.20,
+      "beta_min": 0.70,
+      "beta_max": 0.985,
+      "profile": "default"
+    },
+    "features": {
+      "sp500": {
+        "min_persistence": 0.94,
+        "initial_max_persistence": 0.992,
+        "max_persistence": 0.992,
+        "alpha_min": 0.04,
+        "alpha_max": 0.18,
+        "beta_min": 0.75,
+        "beta_max": 0.94,
+        "profile": "short_mid_volatility_clustering"
+      },
+      "DGS10": {
+        "min_persistence": 0.995,
+        "initial_max_persistence": 0.9985,
+        "max_persistence": 0.9985,
+        "alpha_min": 0.02,
+        "alpha_max": 0.10,
+        "beta_min": 0.90,
+        "beta_max": 0.985,
+        "profile": "long_volatility_clustering"
+      }
+    }
+  },
+  "mahalanobis": {
+    "window_length": 1260,
+    "stride": 126
+  }
+}

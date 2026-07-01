@@ -66,6 +66,9 @@ def main() -> None:
     num_generated = int(config.get("num_generated", 10))
     generated_length = int(config.get("generated_length", 1260))
     burn_in = int(config.get("burn_in", 500))
+    innovation_distribution = str(config.get("innovation_distribution", "normal"))
+    t_copula_config = dict(config.get("t_copula", {}))
+    t_degrees_of_freedom = float(t_copula_config.get("degrees_of_freedom", 6.0))
 
     generated_corr_rows = []
     for idx in range(1, num_generated + 1):
@@ -77,6 +80,8 @@ def main() -> None:
             burn_in=burn_in,
             rng=rng,
             exact_standardized_residual_corr=exact_standardized_residual_corr,
+            innovation_distribution=innovation_distribution,
+            t_degrees_of_freedom=t_degrees_of_freedom,
         )
         generated = generated_scaled / scale_factor
         save_generated_csv(dirs["generated"] / f"garch_generated_{idx:03d}.csv", generated, features)
@@ -116,7 +121,10 @@ def main() -> None:
         "standardized_residual_correlation": residual_corr.tolist(),
         "train_csv": config["train_csv"],
         "n_train_rows": int(len(df)),
+        "innovation_distribution": innovation_distribution,
     }
+    if innovation_distribution.lower() in {"t", "student_t", "student-t", "t_copula", "t-copula"}:
+        fitted_payload["t_copula"] = {"degrees_of_freedom": t_degrees_of_freedom}
     if has_profile_fit or exact_standardized_residual_corr:
         fitted_payload.update(
             {
@@ -136,6 +144,8 @@ def main() -> None:
             f"features: {features}",
             f"num_generated: {num_generated}",
             f"generated_length: {generated_length}",
+            f"innovation_distribution: {innovation_distribution}",
+            f"t_degrees_of_freedom: {t_degrees_of_freedom}",
             f"exact_standardized_residual_corr: {exact_standardized_residual_corr}",
             f"standardized_residual_corr_diagnostics: {corr_diag_path}",
         ]

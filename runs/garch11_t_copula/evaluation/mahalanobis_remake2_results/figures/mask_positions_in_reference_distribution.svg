@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="700" viewBox="0 0 1260 700">
+<rect width="100%" height="100%" fill="white"/>
+<text x="610" y="35" text-anchor="middle" font-size="22" font-family="Arial">GARCH masks in real-window Mahalanobis remake2 distribution</text>
+<line x1="90" y1="620" x2="940" y2="620" stroke="#333"/>
+<line x1="90" y1="70" x2="90" y2="620" stroke="#333"/>
+<line x1="85" y1="620.00" x2="940" y2="620.00" stroke="#ddd"/>
+<text x="80" y="624.00" text-anchor="end" font-size="12" font-family="Arial">0</text>
+<line x1="85" y1="510.00" x2="940" y2="510.00" stroke="#ddd"/>
+<text x="80" y="514.00" text-anchor="end" font-size="12" font-family="Arial">21</text>
+<line x1="85" y1="400.00" x2="940" y2="400.00" stroke="#ddd"/>
+<text x="80" y="404.00" text-anchor="end" font-size="12" font-family="Arial">41</text>
+<line x1="85" y1="290.00" x2="940" y2="290.00" stroke="#ddd"/>
+<text x="80" y="294.00" text-anchor="end" font-size="12" font-family="Arial">62</text>
+<line x1="85" y1="180.00" x2="940" y2="180.00" stroke="#ddd"/>
+<text x="80" y="184.00" text-anchor="end" font-size="12" font-family="Arial">82</text>
+<line x1="85" y1="70.00" x2="940" y2="70.00" stroke="#ddd"/>
+<text x="80" y="74.00" text-anchor="end" font-size="12" font-family="Arial">103</text>
+<rect x="90.00" y="609.32" width="44.22" height="10.68" fill="#d9d9d9" stroke="#999"/>
+<rect x="137.22" y="70.00" width="44.22" height="550.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="184.44" y="609.32" width="44.22" height="10.68" fill="#d9d9d9" stroke="#999"/>
+<rect x="231.67" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="278.89" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="326.11" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="373.33" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="420.56" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="467.78" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="515.00" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="562.22" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="609.44" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="656.67" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="703.89" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="751.11" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="798.33" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="845.56" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="892.78" y="620.00" width="44.22" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<line x1="90.00" y1="620" x2="90.00" y2="625" stroke="#333"/>
+<text x="90.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">0.0</text>
+<line x1="260.00" y1="620" x2="260.00" y2="625" stroke="#333"/>
+<text x="260.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">13.3</text>
+<line x1="430.00" y1="620" x2="430.00" y2="625" stroke="#333"/>
+<text x="430.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">26.6</text>
+<line x1="600.00" y1="620" x2="600.00" y2="625" stroke="#333"/>
+<text x="600.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">39.8</text>
+<line x1="770.00" y1="620" x2="770.00" y2="625" stroke="#333"/>
+<text x="770.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">53.1</text>
+<line x1="940.00" y1="620" x2="940.00" y2="625" stroke="#333"/>
+<text x="940.00" y="642" text-anchor="middle" font-size="12" font-family="Arial">66.4</text>
+<line x1="168.13" y1="70" x2="168.13" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="92.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_002.csv: D=6.10, pct=91.6</text>
+<line x1="196.51" y1="70" x2="196.51" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="116.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_003.csv: D=8.32, pct=100.0</text>
+<line x1="200.94" y1="70" x2="200.94" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="140.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_006.csv: D=8.67, pct=100.0</text>
+<line x1="251.75" y1="70" x2="251.75" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="164.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_010.csv: D=12.64, pct=100.0</text>
+<line x1="252.33" y1="70" x2="252.33" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="188.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_007.csv: D=12.68, pct=100.0</text>
+<line x1="269.29" y1="70" x2="269.29" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="212.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_005.csv: D=14.01, pct=100.0</text>
+<line x1="325.21" y1="70" x2="325.21" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="236.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_009.csv: D=18.37, pct=100.0</text>
+<line x1="363.12" y1="70" x2="363.12" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="260.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_001.csv: D=21.34, pct=100.0</text>
+<line x1="880.68" y1="70" x2="880.68" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="284.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_004.csv: D=61.77, pct=100.0</text>
+<line x1="940.00" y1="70" x2="940.00" y2="620" stroke="#2a6fbb" stroke-width="2"/>
+<text x="958" y="308.00" font-size="12" font-family="Arial" fill="#2a6fbb">garch_generated_008.csv: D=66.40, pct=100.0</text>
+<text x="515.00" y="680" text-anchor="middle" font-size="14" font-family="Arial">Mahalanobis distance</text>
+<text x="22" y="345.00" transform="rotate(-90 22 345.00)" text-anchor="middle" font-size="14" font-family="Arial">Reference window count</text>
+</svg>

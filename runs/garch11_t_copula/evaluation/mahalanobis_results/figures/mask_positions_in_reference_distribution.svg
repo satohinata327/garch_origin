@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="680" viewBox="0 0 1200 680">
+<rect width="100%" height="100%" fill="white"/>
+<text x="600" y="35" text-anchor="middle" font-size="22" font-family="Arial">each_mask positions in real-window Mahalanobis distance distribution</text>
+<line x1="90" y1="600" x2="980" y2="600" stroke="#333"/>
+<line x1="90" y1="70" x2="90" y2="600" stroke="#333"/>
+<line x1="85" y1="600.00" x2="980" y2="600.00" stroke="#ddd"/>
+<text x="80" y="604.00" text-anchor="end" font-size="12" font-family="Arial">0</text>
+<line x1="85" y1="494.00" x2="980" y2="494.00" stroke="#ddd"/>
+<text x="80" y="498.00" text-anchor="end" font-size="12" font-family="Arial">11</text>
+<line x1="85" y1="388.00" x2="980" y2="388.00" stroke="#ddd"/>
+<text x="80" y="392.00" text-anchor="end" font-size="12" font-family="Arial">22</text>
+<line x1="85" y1="282.00" x2="980" y2="282.00" stroke="#ddd"/>
+<text x="80" y="286.00" text-anchor="end" font-size="12" font-family="Arial">32</text>
+<line x1="85" y1="176.00" x2="980" y2="176.00" stroke="#ddd"/>
+<text x="80" y="180.00" text-anchor="end" font-size="12" font-family="Arial">43</text>
+<line x1="85" y1="70.00" x2="980" y2="70.00" stroke="#ddd"/>
+<text x="80" y="74.00" text-anchor="end" font-size="12" font-family="Arial">54</text>
+<rect x="90.00" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="139.44" y="119.07" width="46.44" height="480.93" fill="#d9d9d9" stroke="#999"/>
+<rect x="188.89" y="70.00" width="46.44" height="530.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="238.33" y="560.74" width="46.44" height="39.26" fill="#d9d9d9" stroke="#999"/>
+<rect x="287.78" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="337.22" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="386.67" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="436.11" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="485.56" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="535.00" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="584.44" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="633.89" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="683.33" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="732.78" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="782.22" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="831.67" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="881.11" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<rect x="930.56" y="600.00" width="46.44" height="0.00" fill="#d9d9d9" stroke="#999"/>
+<line x1="90.00" y1="600" x2="90.00" y2="605" stroke="#333"/>
+<text x="90.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">0.0</text>
+<line x1="268.00" y1="600" x2="268.00" y2="605" stroke="#333"/>
+<text x="268.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">7.4</text>
+<line x1="446.00" y1="600" x2="446.00" y2="605" stroke="#333"/>
+<text x="446.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">14.9</text>
+<line x1="624.00" y1="600" x2="624.00" y2="605" stroke="#333"/>
+<text x="624.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">22.3</text>
+<line x1="802.00" y1="600" x2="802.00" y2="605" stroke="#333"/>
+<text x="802.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">29.8</text>
+<line x1="980.00" y1="600" x2="980.00" y2="605" stroke="#333"/>
+<text x="980.00" y="622" text-anchor="middle" font-size="12" font-family="Arial">37.2</text>
+<line x1="220.94" y1="70" x2="220.94" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="220.94" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="90.00" font-size="12" font-family="Arial" fill="#1f77b4">mask2_garch.csv: D=5.47, pct=93.5</text>
+<line x1="250.83" y1="70" x2="250.83" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="250.83" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="112.00" font-size="12" font-family="Arial" fill="#1f77b4">mask5_garch.csv: D=6.72, pct=97.2</text>
+<line x1="251.32" y1="70" x2="251.32" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="251.32" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="134.00" font-size="12" font-family="Arial" fill="#1f77b4">mask3_garch.csv: D=6.74, pct=97.2</text>
+<line x1="293.60" y1="70" x2="293.60" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="293.60" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="156.00" font-size="12" font-family="Arial" fill="#1f77b4">mask6_garch.csv: D=8.51, pct=100.0</text>
+<line x1="331.86" y1="70" x2="331.86" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="331.86" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="178.00" font-size="12" font-family="Arial" fill="#1f77b4">mask7_garch.csv: D=10.11, pct=100.0</text>
+<line x1="335.13" y1="70" x2="335.13" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="335.13" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="200.00" font-size="12" font-family="Arial" fill="#1f77b4">mask10_garch.csv: D=10.25, pct=100.0</text>
+<line x1="405.74" y1="70" x2="405.74" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="405.74" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="222.00" font-size="12" font-family="Arial" fill="#1f77b4">mask1_garch.csv: D=13.20, pct=100.0</text>
+<line x1="440.94" y1="70" x2="440.94" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="440.94" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="244.00" font-size="12" font-family="Arial" fill="#1f77b4">mask9_garch.csv: D=14.67, pct=100.0</text>
+<line x1="659.35" y1="70" x2="659.35" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="659.35" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="266.00" font-size="12" font-family="Arial" fill="#1f77b4">mask4_garch.csv: D=23.80, pct=100.0</text>
+<line x1="980.00" y1="70" x2="980.00" y2="600" stroke="#1f77b4" stroke-width="2"/>
+<circle cx="980.00" cy="634" r="5" fill="#1f77b4"/>
+<text x="998" y="288.00" font-size="12" font-family="Arial" fill="#1f77b4">mask8_garch.csv: D=37.20, pct=100.0</text>
+<text x="535.00" y="660" text-anchor="middle" font-size="14" font-family="Arial">Mahalanobis distance</text>
+<text x="22" y="335.00" transform="rotate(-90 22 335.00)" text-anchor="middle" font-size="14" font-family="Arial">Reference window count</text>
+</svg>

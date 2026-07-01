@@ -11,6 +11,7 @@ garch_origin/
   config/
     garch11_baseline.json
     garch11_correlogram_design.json
+    garch11_t_copula.json
   mahalanobis_eval/
     scripts/run_mahalanobis_eval.py
   scripts/
@@ -129,4 +130,38 @@ garch_origin/runs/garch11_correlogram_design/data/fitted_params.json
 ```text
 garch_origin/runs/garch11_baseline/data/generated_standardized_residual_correlations.csv
 garch_origin/runs/garch11_correlogram_design/data/generated_standardized_residual_correlations.csv
+```
+
+## t-copula GARCH
+
+`config/garch11_t_copula.json` では、GARCH(1,1) の各系列推定と persistence 制約は `garch11_correlogram_design.json` と同じにし、生成時の innovation を Gaussian から t-copula に変更しています。
+
+```bash
+python3 garch_origin/scripts/generate_garch.py \
+  --config garch_origin/config/garch11_t_copula.json
+```
+
+出力は以下に保存されます。
+
+```text
+garch_origin/runs/garch11_t_copula/
+```
+
+この config の主な追加設定は以下です。
+
+```json
+{
+  "innovation_distribution": "t_copula",
+  "t_copula": {
+    "degrees_of_freedom": 6.0
+  }
+}
+```
+
+t-copula では共通の tail scale を持つ Student-t innovation を使うため、通常の固定相関 GARCH よりも、2系列が同じ日に大きく動く tail dependence を表現しやすくなります。
+
+注意: `exact_standardized_residual_corr` は t-copula では潜在正規 innovation 側の相関を調整します。共通 tail scale を掛けた後の実現標準化残差相関は完全一致ではなく、以下の診断CSVで確認します。
+
+```text
+garch_origin/runs/garch11_t_copula/data/generated_standardized_residual_correlations.csv
 ```
